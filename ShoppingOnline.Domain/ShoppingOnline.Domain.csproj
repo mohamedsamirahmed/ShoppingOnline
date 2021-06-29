@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ShoppingOnline.Common\ShoppingOnline.Common.csproj" />
+    <ProjectReference Include="..\ShoppingOnline.Data\ShoppingOnline.Data.csproj" />
+    <ProjectReference Include="..\ShoppingOnline.DTO\ShoppingOnline.DTO.csproj" />
+  </ItemGroup>
+
+</Project>
