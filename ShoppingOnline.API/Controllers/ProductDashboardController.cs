@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ShoppingOnline.Common.Helper;
 using ShoppingOnline.Common.Models;
+using ShoppingOnline.Domain.Helpers;
 using ShoppingOnline.Domain.Services;
 using ShoppingOnline.DTO;
 using System;
@@ -28,12 +30,15 @@ namespace ShoppingOnline.API.Controllers
         
         [HttpGet("GetProducts")]
         [AllowAnonymous]
-        public IActionResult GetProducts()
+        public async Task<IActionResult> GetProducts([FromQuery] ProductParams productParams)
         {
             try
             {
-                ResponseModel<IQueryable<ProductDTO>> productResponse = new ResponseModel<IQueryable<ProductDTO>>();
-                productResponse = _productDashboardService.GetAllProducts();
+                var productResponse =await _productDashboardService.GetAllProducts(productParams);
+                
+                Response.AddPagination(productResponse.Entity.CurrentPage, productResponse.Entity.PageSize,
+                   productResponse.Entity.TotalCount, productResponse.Entity.TotalPages);
+
                 if (!productResponse.ReturnStatus)
                     return BadRequest(productResponse);
                 return Ok(new { data= productResponse.Entity,status=productResponse.ReturnStatus});
@@ -46,10 +51,21 @@ namespace ShoppingOnline.API.Controllers
 
         
         // GET api/<ProductDashboardController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("GetCategories")]
+        public IActionResult GetCategories()
         {
-            return "value";
+            try
+            {
+                ResponseModel<IQueryable<LookupDTO>> categoryResponse = new ResponseModel<IQueryable<LookupDTO>>();
+                categoryResponse = _productDashboardService.GetCategoryLookup();
+                if (!categoryResponse.ReturnStatus)
+                    return BadRequest(categoryResponse);
+                return Ok(categoryResponse);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Something wrong happened!. Please try again later.");
+            }
         }
 
         // POST api/<ProductDashboardController>

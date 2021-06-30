@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ShoppingOnline.DTO
 {
@@ -11,5 +12,9 @@ namespace ShoppingOnline.DTO
         public string Description { get; set; }
 
         public double Price { get; set; }
+
+        public int CategoryId { get; set; }
+
+        public List<ProductCategoryDTO> ProductCategories { get; set; }
     }
 }
