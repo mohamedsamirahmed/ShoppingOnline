@@ -1,10 +1,12 @@
-﻿using System;
+﻿using ShoppingOnline.Common.Repository;
+using ShoppingOnline.Domain.Model;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace ShoppingOnline.Domain.Repositories
 {
-    interface IUserRepository
+    public interface IUserRepository : IEntityFrameworkRepository<User>
     {
     }
 }

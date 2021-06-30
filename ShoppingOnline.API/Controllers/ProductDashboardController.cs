@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ShoppingOnline.Common.Models;
 using ShoppingOnline.Domain.Services;
 using ShoppingOnline.DTO;
@@ -24,10 +25,9 @@ namespace ShoppingOnline.API.Controllers
             _productDashboardService = productDashboardService;
         }
 
-
-
-
+        
         [HttpGet("GetProducts")]
+        [AllowAnonymous]
         public IActionResult GetProducts()
         {
             try
@@ -38,7 +38,7 @@ namespace ShoppingOnline.API.Controllers
                     return BadRequest(productResponse);
                 return Ok(new { data= productResponse.Entity,status=productResponse.ReturnStatus});
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return BadRequest("Something wrong happened!. Please try again later.");
             }

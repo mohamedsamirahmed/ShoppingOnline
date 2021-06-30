@@ -1,10 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using ShoppingOnline.Common.Models;
+using ShoppingOnline.DTO;
+using System.Threading.Tasks;
 
 namespace ShoppingOnline.Domain.Services
 {
-    interface IUserService
+    public interface IUserService
     {
+        ResponseModel<RegisterDTO> RegisterUser(string username, string password);
+        ResponseModel<LoginDto> LoginUser(string username, string password);
     }
 }

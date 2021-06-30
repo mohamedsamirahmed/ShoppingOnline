@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingOnline.Data", "Shop
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingOnline.Domain.Model", "ShoppingOnline.Domain.Model\ShoppingOnline.Domain.Model.csproj", "{B7E09A58-D1F6-4CBF-A28A-8064AD787301}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingOnline.Web", "ShoppingOnline.Web\ShoppingOnline.Web.csproj", "{9A180C44-65E1-4AF6-9A04-8B159CF7C3E1}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingOnline.API.Test", "ShoppingOnline.API.Test\ShoppingOnline.API.Test.csproj", "{01FC8588-5FF6-4B68-A1A6-15ADB92CB8F0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingOnline.Domain", "ShoppingOnline.Domain\ShoppingOnline.Domain.csproj", "{B2E1648A-F0AD-4BC6-A46F-FC6A4A48C167}"
@@ -41,10 +39,6 @@ Global
 		{B7E09A58-D1F6-4CBF-A28A-8064AD787301}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7E09A58-D1F6-4CBF-A28A-8064AD787301}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B7E09A58-D1F6-4CBF-A28A-8064AD787301}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9A180C44-65E1-4AF6-9A04-8B159CF7C3E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9A180C44-65E1-4AF6-9A04-8B159CF7C3E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9A180C44-65E1-4AF6-9A04-8B159CF7C3E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9A180C44-65E1-4AF6-9A04-8B159CF7C3E1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{01FC8588-5FF6-4B68-A1A6-15ADB92CB8F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{01FC8588-5FF6-4B68-A1A6-15ADB92CB8F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{01FC8588-5FF6-4B68-A1A6-15ADB92CB8F0}.Release|Any CPU.ActiveCfg = Release|Any CPU

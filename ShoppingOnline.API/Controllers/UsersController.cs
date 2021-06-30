@@ -1,4 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ShoppingOnline.API.Services;
+using ShoppingOnline.Common.Models;
+using ShoppingOnline.Domain.Services;
+using ShoppingOnline.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +17,12 @@ namespace ShoppingOnline.API.Controllers
     public class UsersController : ControllerBase
     {
 
-        public IUSerService _userService { get; set; }
-        public UsersController(IUserService userService)
+        private readonly IUserService _userService;
+        private readonly ITokenService _tokenService;
+        public UsersController(IUserService userService,ITokenService tokenService)
         {
             _userService = userService;
+            _tokenService = tokenService;
         }
 
         // GET: api/<UsersController>
@@ -34,9 +40,48 @@ namespace ShoppingOnline.API.Controllers
         }
 
         // POST api/<UsersController>
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpPost("register")]
+        public IActionResult Register(RegisterDTO registerDto)
         {
+            try
+            {
+                ResponseModel<RegisterDTO> registerResponse = new ResponseModel<RegisterDTO>();
+                registerResponse = _userService.RegisterUser(registerDto.Name, registerDto.Password);
+                if (!registerResponse.ReturnStatus)
+                    return BadRequest(registerResponse);
+
+                ResponseModel<UserDTO> userResponse = new ResponseModel<UserDTO>();
+                userResponse.Entity = new UserDTO { UserName = registerResponse.Entity.Name, Token = _tokenService.CreateToken(registerResponse.Entity.Name) };
+                userResponse.ReturnStatus = true;
+
+                return Ok(userResponse);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Something wrong happened!. Please try again later.");
+            }
+        }
+
+        [HttpPost("login")]
+        public IActionResult login(LoginDto loginDto)
+        {
+            try
+            {
+                ResponseModel<LoginDto> loginResponse = new ResponseModel<LoginDto>();
+                loginResponse = _userService.LoginUser(loginDto.Name, loginDto.Password);
+                if (!loginResponse.ReturnStatus)
+                    return BadRequest(loginResponse);
+
+                ResponseModel<UserDTO> userResponse = new ResponseModel<UserDTO>();
+                userResponse.Entity = new UserDTO { UserName = loginResponse.Entity.Name, Token =_tokenService.GetToken()};
+                userResponse.ReturnStatus = true;
+
+                return Ok(userResponse);
+            }
+            catch (Exception)
+            {
+                return BadRequest("Something wrong happened!. Please try again later.");
+            }
         }
 
         // PUT api/<UsersController>/5
