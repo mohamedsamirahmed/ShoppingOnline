@@ -9,6 +9,7 @@ using ShoppingOnline.Domain.Repositories;
 using ShoppingOnline.Domain.Repositories.Implementation;
 using ShoppingOnline.DTO;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -93,13 +94,13 @@ namespace ShoppingOnline.Domain.Services.Implementation
         /// get all customers as lookup
         /// </summary>
         /// <returns>lookup collecion with text and value</returns>
-        public ResponseModel<IQueryable<LookupDTO>> GetCategoryLookup()
+        public ResponseModel<List<LookupDTO>> GetCategoryLookup()
         {
-            ResponseModel<IQueryable<LookupDTO>> returnResponse = new ResponseModel<IQueryable<LookupDTO>>();
+            ResponseModel<List<LookupDTO>> returnResponse = new ResponseModel<List<LookupDTO>>();
             try
             {
                 IQueryable<LookupDTO> categories = categoryRepo.GetAll().Select(c => new LookupDTO() { text = c.Name, value = c.Id.ToString() });
-                returnResponse.Entity = categories;
+                returnResponse.Entity = categories.ToList();
                 returnResponse.ReturnStatus = true;
             }
             catch (Exception ex)

@@ -34,14 +34,15 @@ namespace ShoppingOnline.API.Controllers
         {
             try
             {
-                var productResponse =await _productDashboardService.GetAllProducts(productParams);
+                 var productResponse =await _productDashboardService.GetAllProducts(productParams);
                 
                 Response.AddPagination(productResponse.Entity.CurrentPage, productResponse.Entity.PageSize,
                    productResponse.Entity.TotalCount, productResponse.Entity.TotalPages);
 
                 if (!productResponse.ReturnStatus)
                     return BadRequest(productResponse);
-                return Ok(new { data= productResponse.Entity,status=productResponse.ReturnStatus});
+                //return Ok(new { data= productResponse.Entity,status=productResponse.ReturnStatus});
+                return Ok(productResponse);
             }
             catch (Exception)
             {
@@ -56,7 +57,7 @@ namespace ShoppingOnline.API.Controllers
         {
             try
             {
-                ResponseModel<IQueryable<LookupDTO>> categoryResponse = new ResponseModel<IQueryable<LookupDTO>>();
+                ResponseModel<List<LookupDTO>> categoryResponse = new ResponseModel<List<LookupDTO>>();
                 categoryResponse = _productDashboardService.GetCategoryLookup();
                 if (!categoryResponse.ReturnStatus)
                     return BadRequest(categoryResponse);

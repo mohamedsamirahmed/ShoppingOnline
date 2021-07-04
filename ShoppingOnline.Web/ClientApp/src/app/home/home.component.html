@@ -1,7 +1,23 @@
 <h1>Shopping Online</h1>
+<div class="container mt-5">
+  <div *ngIf="!registerMode" style="text-align:center;">
+    <h1>Register to Start your Shopping </h1>
+    <div class="text-center">
+      <button (click)="registerToggle()" class="btn-primary btn-primary btn-lg mr-2">Register</button>
+    </div>
+  </div>
+</div>
 
+<div *ngIf="registerMode" class="container">
+  <div class="row justify-content-center">
+    <div class="col-4">
+      <app-register (cancelRegister)="cancelRegisterMode($event)"></app-register>
+    </div>
+  </div>
 
-<p *ngIf="!_Products"><em>Loading...</em></p>
+</div>
+
+<!--<p *ngIf="!_products"><em>Loading...</em></p>
 
 <div class="text-center mt-3" *ngIf="_products">
   <h2>{{pagination.totalItems}} Records Found</h2>
@@ -10,9 +26,9 @@
 <form class="form-inline" #form="ngForm" (ngSubmit)="loadProducts()" novalidate>
 
   <div class="form-group px-2">
-    <label for="Customer">Category </label>
-    <select class="form-control ml-1" style="width: 130px" id="Customer" name="Customer"
-            [(ngModel)]="customerVehicleParams.Customer">
+    <label for="Category">Category </label>
+    <select class="form-control ml-1" style="width: 130px" id="categoty" name="Category"
+            [(ngModel)]="productParams.Category">
       <option value="" selected>Select Category</option>
       <option *ngFor="let category of _categories" [value]="category.value">{{category.text}}</option>
     </select>
@@ -47,10 +63,9 @@
   </tbody>
 </table>
 
-<div class="d-flex justify-content-center" *ngIf="pagination">
-  <pagination [boundaryLinks]="true" [totalItems]="pagination.totalItems" [(ngModel)]="pagination.currentPage"
-              [itemsPerPage]="pagination.itemsPerPage" (pageChanged)="pageChanged($event)"
-              previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
-  </pagination>
-
-</div>
+<div class="d-flex justify-content-center" *ngIf="pagination">-->
+<!--<pagination [boundaryLinks]="true" [totalItems]="pagination.totalItems" [(ngModel)]="pagination.currentPage"
+            [itemsPerPage]="pagination.itemsPerPage" (pageChanged)="pageChanged($event)"
+            previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
+</pagination>-->
+<!--</div>-->

@@ -18,6 +18,7 @@ namespace ShoppingOnline.API.Services.Implementation
         public TokenService(IConfiguration config)
         {
             _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"]));
+            _config = config;
         }
         public string CreateToken(string userName)
         {

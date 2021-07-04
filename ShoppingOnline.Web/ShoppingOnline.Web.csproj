@@ -32,8 +32,13 @@
     <None Remove="ClientApp\src\models\lookup.ts" />
     <None Remove="ClientApp\src\models\pagination.ts" />
     <None Remove="ClientApp\src\models\product.ts" />
+    <None Remove="ClientApp\src\models\user.ts" />
     <None Remove="ClientApp\src\Services\lookup-service.ts" />
     <None Remove="ClientApp\src\Services\product-service.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ShoppingOnline.Common\ShoppingOnline.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -44,6 +49,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="ClientApp\src\models\category - Copy - Copy.js">
+      <DependentUpon>category.js</DependentUpon>
+    </None>
+    <None Update="ClientApp\src\models\category - Copy - Copy.js.map">
+      <DependentUpon>category.js.map</DependentUpon>
+    </None>
     <None Update="ClientApp\src\models\category - Copy.js">
       <DependentUpon>category.js</DependentUpon>
     </None>

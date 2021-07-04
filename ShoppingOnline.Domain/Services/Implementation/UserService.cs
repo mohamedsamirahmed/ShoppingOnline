@@ -66,13 +66,13 @@ namespace ShoppingOnline.Domain.Services.Implementation
                     userRepo.Add(user);
                     userRepo.SaveChanges();
 
-                    var _user = new RegisterDTO() { Name = user.Name };
+                    var _user = new RegisterDTO() { userName = user.Name };
                     returnResponse.Entity = _user;
                     returnResponse.ReturnStatus = true;
                 }
                 else
                 {
-                    var _user = new RegisterDTO() { Name = userName };
+                    var _user = new RegisterDTO() { userName = userName };
                     returnResponse.Entity = _user;
                     returnResponse.ReturnStatus = false;
                     returnResponse.ReturnMessage.Add("User Exists!");

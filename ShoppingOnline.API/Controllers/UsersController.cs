@@ -25,33 +25,23 @@ namespace ShoppingOnline.API.Controllers
             _tokenService = tokenService;
         }
 
-        // GET: api/<UsersController>
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET api/<UsersController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
+          
 
         // POST api/<UsersController>
         [HttpPost("register")]
         public IActionResult Register(RegisterDTO registerDto)
+         //public IActionResult Register(string username,string password)
         {
             try
             {
                 ResponseModel<RegisterDTO> registerResponse = new ResponseModel<RegisterDTO>();
-                registerResponse = _userService.RegisterUser(registerDto.Name, registerDto.Password);
+                registerResponse = _userService.RegisterUser(registerDto.userName, registerDto.Password);
+                //registerResponse = _userService.RegisterUser(username, password);
                 if (!registerResponse.ReturnStatus)
                     return BadRequest(registerResponse);
 
                 ResponseModel<UserDTO> userResponse = new ResponseModel<UserDTO>();
-                userResponse.Entity = new UserDTO { UserName = registerResponse.Entity.Name, Token = _tokenService.CreateToken(registerResponse.Entity.Name) };
+                userResponse.Entity = new UserDTO { UserName = registerResponse.Entity.userName, Token = _tokenService.CreateToken(registerResponse.Entity.userName) };
                 userResponse.ReturnStatus = true;
 
                 return Ok(userResponse);
@@ -73,7 +63,7 @@ namespace ShoppingOnline.API.Controllers
                     return BadRequest(loginResponse);
 
                 ResponseModel<UserDTO> userResponse = new ResponseModel<UserDTO>();
-                userResponse.Entity = new UserDTO { UserName = loginResponse.Entity.Name, Token =_tokenService.GetToken()};
+                userResponse.Entity = new UserDTO { UserName = loginResponse.Entity.Name, Token =_tokenService.CreateToken(loginResponse.Entity.Name)};
                 userResponse.ReturnStatus = true;
 
                 return Ok(userResponse);
@@ -82,18 +72,6 @@ namespace ShoppingOnline.API.Controllers
             {
                 return BadRequest("Something wrong happened!. Please try again later.");
             }
-        }
-
-        // PUT api/<UsersController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<UsersController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
         }
     }
 }

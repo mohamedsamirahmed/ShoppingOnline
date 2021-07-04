@@ -9,7 +9,7 @@ import { Product } from '../models/product';
 
 @Injectable()
 
-export class ProductService {
+export  class ProductService {
 
   serviceBaseUrl = environment.apiEndpoint;
   constructor(private http: HttpClient) { }
@@ -32,7 +32,7 @@ export class ProductService {
       params = params.append('Category', productParams.Category);
     }
 
-    return this.http.get<Product[]>(this.serviceBaseUrl + 'Product/GetProducts', { observe: 'response', params })
+    return this.http.get<Product[]>(this.serviceBaseUrl + 'ProductDashboard/GetProducts', { observe: 'response', params })
       .pipe(
         map(response => {
           paginatedResult.result = response.body;

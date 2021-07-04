@@ -41,7 +41,7 @@ namespace ShoppingOnline.API
             
             services.AddScoped<ITokenService, TokenService>();
             services.AddTransient<IProductDashboardService, ProductDashboardService>();
-            
+            services.AddTransient<IUserService, UserService>();
             services.AddControllers();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(Options =>
@@ -54,7 +54,10 @@ namespace ShoppingOnline.API
                         ValidateAudience = true
                     };
                 });
-            
+
+            services.AddControllersWithViews().AddNewtonsoftJson();
+
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ShoppingOnline.API", Version = "v1" });
