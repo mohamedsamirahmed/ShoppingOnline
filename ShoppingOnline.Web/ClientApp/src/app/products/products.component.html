@@ -1,24 +1,52 @@
-<h1 id="tableLabel">Weather forecast</h1>
+<p *ngIf="!_products"><em>Loading...</em></p>
 
-<p>This component demonstrates fetching data from the server.</p>
+<div class="text-center mt-3" *ngIf="_products">
+  <h2>{{pagination.totalItems}} Records Found</h2>
+</div>
 
-<p *ngIf="!forecasts"><em>Loading...</em></p>
+<form class="form-inline" #form="ngForm" (ngSubmit)="loadProducts()" novalidate>
 
-<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="forecasts">
+  <div class="form-group px-2">
+    <label for="Category">Category </label>
+    <select class="form-control ml-1" style="width: 130px" id="categoty" name="Category"
+            [(ngModel)]="productParams.Category">
+      <option value="" selected>Select Category</option>
+      <option *ngFor="let category of _categories" [value]="category.value">{{category.text}}</option>
+    </select>
+  </div>
+  <button type="submit" class="btn btn-primary" style="margin-left:10px">Apply Filters</button>
+  <button type="button" class="btn btn-info" (click)="resetFilter()" style="margin-left:10px">Reset Filter</button>
+
+</form>
+<br>
+<table class='table' *ngIf="_products">
   <thead>
     <tr>
-      <th>Date</th>
-      <th>Temp. (C)</th>
-      <th>Temp. (F)</th>
-      <th>Summary</th>
+      <th>Product Name</th>
+      <th>Description</th>
+      <th>Price</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let forecast of forecasts">
-      <td>{{ forecast.date }}</td>
-      <td>{{ forecast.temperatureC }}</td>
-      <td>{{ forecast.temperatureF }}</td>
-      <td>{{ forecast.summary }}</td>
+    <tr *ngFor="let product of _products">
+      <td>{{ product?.name }}</td>
+      <td>{{ product?.description }}</td>
+      <td>{{ product?.price }}</td>
+      <td>
+        <ul>
+          <button class="btn btn-primary"
+                  [routerLink]="['/productDetails/',product.id ]">
+            <i class="fa fa-bars fa-5" title="View details"></i>
+          </button>
+        </ul>
+      </td>
     </tr>
   </tbody>
 </table>
+
+<div class="d-flex justify-content-center" *ngIf="pagination">
+<pagination [boundaryLinks]="true" [totalItems]="pagination.totalItems" [(ngModel)]="pagination.currentPage"
+            [itemsPerPage]="pagination.itemsPerPage" (pageChanged)="pageChanged($event)"
+            previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
+</pagination>
+</div>

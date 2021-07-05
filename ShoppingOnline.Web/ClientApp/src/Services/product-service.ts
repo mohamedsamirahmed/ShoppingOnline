@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -6,6 +6,11 @@ import { environment } from '../environments/environment';
 import { PaginatedResult } from '../models/Pagination';
 import { Product } from '../models/product';
 
+const httpOptions = {
+  headers: new HttpHeaders({
+    Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('user'))==null ? JSON.parse(localStorage.getItem('user')).token:''
+  })
+}
 
 @Injectable()
 
@@ -32,7 +37,7 @@ export  class ProductService {
       params = params.append('Category', productParams.Category);
     }
 
-    return this.http.get<Product[]>(this.serviceBaseUrl + 'ProductDashboard/GetProducts', { observe: 'response', params })
+    return this.http.get<Product[]>(this.serviceBaseUrl + 'ProductDashboard/GetProducts', { headers: httpOptions.headers, observe: 'response', params })
       .pipe(
         map(response => {
           paginatedResult.result = response.body;
@@ -42,7 +47,6 @@ export  class ProductService {
           return paginatedResult;
         })
       )
-
   }
 
 }

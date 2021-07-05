@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShoppingOnline.Data;
 
 namespace ShoppingOnline.API.Data.Migrations
 {
     [DbContext(typeof(ShoppingOnlineDBContext))]
-    partial class ShoppingOnlineDBContextModelSnapshot : ModelSnapshot
+    [Migration("20210705222202_UpdateProductSchema")]
+    partial class UpdateProductSchema
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

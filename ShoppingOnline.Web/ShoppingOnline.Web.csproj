@@ -31,6 +31,7 @@
     <None Remove="ClientApp\src\models\category.ts" />
     <None Remove="ClientApp\src\models\lookup.ts" />
     <None Remove="ClientApp\src\models\pagination.ts" />
+    <None Remove="ClientApp\src\models\photo.ts" />
     <None Remove="ClientApp\src\models\product.ts" />
     <None Remove="ClientApp\src\models\user.ts" />
     <None Remove="ClientApp\src\Services\lookup-service.ts" />
