@@ -38,6 +38,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Remove="ClientApp\src\app\app-routing.module.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ShoppingOnline.Common\ShoppingOnline.Common.csproj" />
   </ItemGroup>
 
@@ -70,6 +74,11 @@
     <TypeScriptCompile Update="ClientApp\src\Services\lookup-service.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ClientApp\src\guards\" />
+    <Folder Include="ClientApp\src\module\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

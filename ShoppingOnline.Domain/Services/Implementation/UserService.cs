@@ -132,7 +132,7 @@ namespace ShoppingOnline.Domain.Services.Implementation
                     }
                 }
                 
-                returnResponse.Entity = new LoginDto() { Name= requiredUser.Name};
+                returnResponse.Entity = new LoginDto() { userName= requiredUser.Name};
                 returnResponse.ReturnStatus = true;
 
                 return returnResponse;

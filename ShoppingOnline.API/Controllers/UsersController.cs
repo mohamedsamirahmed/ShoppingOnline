@@ -58,12 +58,12 @@ namespace ShoppingOnline.API.Controllers
             try
             {
                 ResponseModel<LoginDto> loginResponse = new ResponseModel<LoginDto>();
-                loginResponse = _userService.LoginUser(loginDto.Name, loginDto.Password);
+                loginResponse = _userService.LoginUser(loginDto.userName, loginDto.Password);
                 if (!loginResponse.ReturnStatus)
                     return BadRequest(loginResponse);
 
                 ResponseModel<UserDTO> userResponse = new ResponseModel<UserDTO>();
-                userResponse.Entity = new UserDTO { UserName = loginResponse.Entity.Name, Token =_tokenService.CreateToken(loginResponse.Entity.Name)};
+                userResponse.Entity = new UserDTO { UserName = loginResponse.Entity.userName, Token =_tokenService.CreateToken(loginResponse.Entity.userName)};
                 userResponse.ReturnStatus = true;
 
                 return Ok(userResponse);
