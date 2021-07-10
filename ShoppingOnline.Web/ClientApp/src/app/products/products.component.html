@@ -19,34 +19,17 @@
 
 </form>
 <br>
-<table class='table' *ngIf="_products">
-  <thead>
-    <tr>
-      <th>Product Name</th>
-      <th>Description</th>
-      <th>Price</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let product of _products">
-      <td>{{ product?.name }}</td>
-      <td>{{ product?.description }}</td>
-      <td>{{ product?.price }}</td>
-      <td>
-        <ul>
-          <button class="btn btn-primary"
-                  [routerLink]="['/productDetails/',product.id ]">
-            <i class="fa fa-bars fa-5" title="View details"></i>
-          </button>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>
 
+<div class="row">
+
+  <div *ngFor="let product of _products" class="col-2">
+    <app-product-card [product]="product"></app-product-card>
+  </div>
+
+</div>
 <div class="d-flex justify-content-center" *ngIf="pagination">
-<pagination [boundaryLinks]="true" [totalItems]="pagination.totalItems" [(ngModel)]="pagination.currentPage"
-            [itemsPerPage]="pagination.itemsPerPage" (pageChanged)="pageChanged($event)"
-            previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
-</pagination>
+  <pagination [boundaryLinks]="true" [totalItems]="pagination.totalItems" [(ngModel)]="pagination.currentPage"
+              [itemsPerPage]="pagination.itemsPerPage" (pageChanged)="pageChanged($event)"
+              previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
+  </pagination>
 </div>

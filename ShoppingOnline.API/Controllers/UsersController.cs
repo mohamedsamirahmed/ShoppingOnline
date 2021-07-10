@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using ShoppingOnline.API.Services;
 using ShoppingOnline.Common.Models;
+using ShoppingOnline.Domain.Model;
 using ShoppingOnline.Domain.Services;
 using ShoppingOnline.DTO;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -19,32 +19,42 @@ namespace ShoppingOnline.API.Controllers
 
         private readonly IUserService _userService;
         private readonly ITokenService _tokenService;
-        public UsersController(IUserService userService,ITokenService tokenService)
+
+        public UsersController(IUserService userService, ITokenService tokenService)
         {
             _userService = userService;
             _tokenService = tokenService;
         }
 
-          
+
 
         // POST api/<UsersController>
         [HttpPost("register")]
-        public IActionResult Register(RegisterDTO registerDto)
-         //public IActionResult Register(string username,string password)
+        public async Task<IActionResult> Register(RegisterDTO registerDto)
         {
             try
             {
-                ResponseModel<RegisterDTO> registerResponse = new ResponseModel<RegisterDTO>();
-                registerResponse = _userService.RegisterUser(registerDto.userName, registerDto.Password);
-                //registerResponse = _userService.RegisterUser(username, password);
+                ResponseModel<User> registerResponse = new ResponseModel<User>();
+                registerResponse = await _userService.RegisterUser(registerDto);
                 if (!registerResponse.ReturnStatus)
                     return BadRequest(registerResponse);
 
-                ResponseModel<UserDTO> userResponse = new ResponseModel<UserDTO>();
-                userResponse.Entity = new UserDTO { UserName = registerResponse.Entity.userName, Token = _tokenService.CreateToken(registerResponse.Entity.userName) };
-                userResponse.ReturnStatus = true;
+                ResponseModel<UserDTO> registerResponseDto = new ResponseModel<UserDTO>()
+                {
+                    Entity = new UserDTO()
+                    {
+                        Token = await _tokenService.CreateToken(registerResponse.Entity),
+                        UserName = registerDto.userName
+                    },
+                    ReturnStatus = true
+                };
 
-                return Ok(userResponse);
+                //ResponseModel<UserDTO> userResponse = new ResponseModel<UserDTO>();
+
+                //userResponse.Entity = new UserDTO { UserName = registerResponse.Entity.UserName, Token = _tokenService.CreateToken(registerResponse.Entity.UserName) };
+                //userResponse.ReturnStatus = true;
+
+                return Ok(registerResponseDto);
             }
             catch (Exception ex)
             {
@@ -53,20 +63,30 @@ namespace ShoppingOnline.API.Controllers
         }
 
         [HttpPost("login")]
-        public IActionResult login(LoginDto loginDto)
+        public async Task<IActionResult> login(LoginDto loginDto)
         {
             try
             {
-                ResponseModel<LoginDto> loginResponse = new ResponseModel<LoginDto>();
-                loginResponse = _userService.LoginUser(loginDto.userName, loginDto.Password);
+                ResponseModel<User> loginResponse = new ResponseModel<User>();
+                loginResponse = await _userService.LoginUser(loginDto);
+
                 if (!loginResponse.ReturnStatus)
                     return BadRequest(loginResponse);
 
-                ResponseModel<UserDTO> userResponse = new ResponseModel<UserDTO>();
-                userResponse.Entity = new UserDTO { UserName = loginResponse.Entity.userName, Token =_tokenService.CreateToken(loginResponse.Entity.userName)};
-                userResponse.ReturnStatus = true;
+                ResponseModel<UserDTO> userResponseDto = new ResponseModel<UserDTO>()
+                {
+                    Entity = new UserDTO()
+                    {
+                        Token = await _tokenService.CreateToken(loginResponse.Entity),
+                        UserName = loginDto.userName
+                    },
+                    ReturnStatus = true
+                };
 
-                return Ok(userResponse);
+                //userResponse.Entity = new UserDTO { UserName = loginResponse.Entity.userName, Token = _tokenService.CreateToken(loginResponse.Entity.userName) };
+                //userResponse.ReturnStatus = true;
+
+                return Ok(userResponseDto);
             }
             catch (Exception)
             {

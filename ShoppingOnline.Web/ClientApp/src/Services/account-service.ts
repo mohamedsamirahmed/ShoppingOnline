@@ -20,10 +20,13 @@ export class AccountService {
   login(model: any) {
     return this.http.post(this.serviceBaseUrl + "users/login", model).pipe(
       map((response: User) => {
-        const user = response;
-        if (user) {
-          localStorage.setItem("user", JSON.stringify(user));
-          this.currentUserSource.next(user);
+        if (response["returnStatus"] == true) {
+          const user = response["entity"];
+          if (user) {
+            this.setCurrentUser(user);
+            //localStorage.setItem("user", JSON.stringify(user));
+            //this.currentUserSource.next(user);
+          }
         }
       })
     );
@@ -31,21 +34,36 @@ export class AccountService {
 
   register(model: any) {
     return this.http.post(this.serviceBaseUrl + "users/register", model).pipe(
-      map((user: User) => {
+      map((response: User) => {
+        if (response["returnStatus"] == false) return;
+        const user = response["entity"];
         if (user) {
-          localStorage.setItem("user", JSON.stringify(user));
-          this.currentUserSource.next(user);
+          this.setCurrentUser(user);
+          //localStorage.setItem("user", JSON.stringify(user));
+          //this.currentUserSource.next(user);
         }
         return user;
+
+
       }));
-}
+  }
 
-setCurrentUser(user: User) {
-  this.currentUserSource.next(user);
-}
+  setCurrentUser(user: User) {
+    user.roles = [];
+    const roles = this.getDecodedToken(user.token).role;
+    Array.isArray(roles) ? user.roles = roles : user.roles.push(roles);
+    localStorage.setItem('user', JSON.stringify(user));
+    this.currentUserSource.next(user);
+  }
 
-logout() {
-  localStorage.removeItem("user");
-  this.currentUserSource.next(null);
-}
+  logout() {
+    localStorage.removeItem("user");
+    this.currentUserSource.next(null);
+  }
+
+  getDecodedToken(token) {
+    return JSON.parse(atob(token.split('.')[1]));
+  }
+
+
 }

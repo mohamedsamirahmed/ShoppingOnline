@@ -1,0 +1,106 @@
+[
+  {
+    "Id": 1,
+    "Name": "Sony z",
+    "Description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised",
+    "UserId": 1,
+    "Price": 200,
+    "Photos": [
+      {
+        "Url": "https://m.media-amazon.com/images/I/51DaDtGYSoL._AC_UY327_FMwebp_QL65_.jpg",
+        "IsMain": true
+      }
+    ]
+  },
+  {
+    "Id": 2,
+    "Name": "iphone 5",
+    "Description": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English",
+    "UserId": 1,
+    "Price": 150,
+    "Photos": [
+      {
+        "Url": "https://m.media-amazon.com/images/I/71RYhD1uzpL._AC_UY327_FMwebp_QL65_.jpg",
+        "IsMain": true
+      }
+    ]
+  },
+  {
+    "Id": 3,
+    "Name": "Pixel 4",
+    "Description": "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, ",
+    "UserId": 1,
+    "Price": 2800,
+    "Photos": [
+      {
+        "Url": "https://m.media-amazon.com/images/I/51l02S9fYmS._AC_UY327_FMwebp_QL65_.jpg",
+        "IsMain": true
+      }
+    ]
+  },
+  {
+    "Id": 4,
+    "Name": "iphone 12",
+    "Description": "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source",
+    "UserId": 1,
+    "Price": 2000,
+    "Photos": [
+      {
+        "Url": "https://m.media-amazon.com/images/G/01/appcore/phone/AMZ_FamiyStripe_iPhone_12ProMax.png",
+        "IsMain": true
+      }
+    ]
+  },
+  {
+    "Id": 5,
+    "Name": "Pixel 5",
+    "Description": "middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks r",
+    "UserId": 1,
+    "Price": 1900,
+    "Photos": [
+      {
+        "Url": "https://m.media-amazon.com/images/I/61zLf5MedCS._AC_UY327_FMwebp_QL65_.jpg",
+        "IsMain": true
+      }
+    ]
+  },
+  {
+    "Id": 6,
+    "Name": "Samsung Note 8",
+    "Description": "he standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.",
+    "UserId": 1,
+    "Price": 300,
+    "Photos": [
+      {
+        "Url": "https://m.media-amazon.com/images/I/81OqC-UGXqL._AC_UY327_FMwebp_QL65_.jpg",
+        "IsMain": true
+      }
+    ]
+  },
+  {
+    "Id": 7,
+    "Name": "Lenovo Y50",
+    "Description": "he standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.",
+    "UserId": 1,
+    "Price": 6500,
+    "Photos": [
+      {
+        "Url": "https://m.media-amazon.com/images/I/81SgZIMCPfL._AC_UY327_FMwebp_QL65_.jpg",
+        "IsMain": true
+      }
+    ]
+  },
+  {
+    "Id": 8,
+    "Name": "Dell inspiron",
+    "Description": "he standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.",
+    "UserId": 1,
+    "Price": 3800,
+    "Photos": [
+      {
+        "Url": "https://m.media-amazon.com/images/I/81zuU5gsJ4L._AC_UY327_FMwebp_QL65_.jpg",
+        "IsMain": true
+      }
+    ]
+  }
+]

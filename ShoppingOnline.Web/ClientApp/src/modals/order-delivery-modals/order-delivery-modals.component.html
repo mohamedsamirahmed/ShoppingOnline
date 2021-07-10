@@ -1,0 +1,18 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">Edit Order Status for order # {{order.id}}</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form #orderForm="ngForm" id="orderStatusForm">
+    <select class="form-control ml-1" style="width: 130px" id="orderStatus" name="orderStatus">
+      <option value="" selected>Select Status</option>
+      <option *ngFor="let orderStatus of _allOrderStatus" [value]="orderStatus.value">{{orderStatus.text}}</option>
+    </select>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-default" (click)="bsModalRef.hide()">{{closeBtnName}}</button>
+  <button type="button" class="btn btn-default" (click)="updateOrderStatus()">Submit</button>
+</div>

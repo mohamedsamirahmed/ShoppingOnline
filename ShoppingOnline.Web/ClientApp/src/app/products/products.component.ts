@@ -30,7 +30,6 @@ export class ProductsComponent {
 
     this.loadProducts();
 
-    //Get All Customer Vehicles from service
     this.loadCategoryLookup(this.categoryServiceEndpoint);
   }
   resetFilters() {
@@ -54,7 +53,7 @@ export class ProductsComponent {
       itemsPerPage = this.pagination.itemsPerPage;
     }
 
-    //Get All Customer Vehicles from service
+    
     this.productService.getProductList(pageNumber, itemsPerPage, this.productParams).subscribe((response: any) => {
       if (response.result.returnStatus) {
         this._products = response.result.entity;
@@ -66,19 +65,19 @@ export class ProductsComponent {
       }
     }, error => {
       console.log(error);
-      this.toastrService.error(error.error);
+      this.toastrService.error(error.message);
     });
   }
 
   //get all categories
   loadCategoryLookup(serviceEndPoint) {
-    //Get all Customers for lookup filter
+    
     this.lookupService.getlookupList(serviceEndPoint).subscribe((response: any) => {
       if (response.returnStatus)
         this._categories = response.entity;
     }, error => {
       console.log(error);
-      this.toastrService.error(error.error);
+      this.toastrService.error(error.message);
     });
   }
 }

@@ -22,5 +22,6 @@ namespace ShoppingOnline.Domain.Model
         public List<ProductCategory> ProductCategories { get; set; }
 
         public ICollection<Photos> Photos { get; set; }
+
     }
 }

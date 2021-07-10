@@ -1,23 +1,30 @@
-import { Component, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { ProductService } from '../../Services/product-service';
+import { ActivatedRoute } from '@angular/router';
+import { Product } from '../../models/product';
 
 @Component({
   selector: 'app-product-details',
-  templateUrl: './product-details.component.html'
+  templateUrl: './product-details.component.html',
+  styleUrls: ['./product-details.component.css']
 })
-export class ProductDetailsComponent {
-  public forecasts: WeatherForecast[];
-
-  constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-    http.get<WeatherForecast[]>(baseUrl + 'weatherforecast').subscribe(result => {
-      this.forecasts = result;
-    }, error => console.error(error));
+export class ProductDetailsComponent implements OnInit {
+  product: Product;
+     
+  constructor(private productService: ProductService, private route: ActivatedRoute) {
   }
-}
+  ngOnInit() {
+    this.getProduct();
+  }
 
-interface WeatherForecast {
-  date: string;
-  temperatureC: number;
-  temperatureF: number;
-  summary: string;
+  getProduct() {
+    return this.productService.getProduct(this.route.snapshot.paramMap.get('id')).subscribe(product => {
+      this.product = product;
+    });
+  }
+
+  AddToCart() {
+
+  }
+
 }

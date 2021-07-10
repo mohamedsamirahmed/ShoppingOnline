@@ -1,27 +1,22 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 import { PaginatedResult } from '../models/Pagination';
 import { Product } from '../models/product';
 
-const httpOptions = {
-  headers: new HttpHeaders({
-    Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('user'))==null ? JSON.parse(localStorage.getItem('user')).token:''
-  })
-}
-
 @Injectable()
 
 export  class ProductService {
 
   serviceBaseUrl = environment.apiEndpoint;
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private toastrService: ToastrService) { }
 
 
 
-  //Get customer vehicles based on paging parameter
+
   getProductList(page?, itemsPerPage?, productParams?): Observable<PaginatedResult<Product[]>> {
 
     const paginatedResult: PaginatedResult<Product[]> = new PaginatedResult<Product[]>();
@@ -37,7 +32,7 @@ export  class ProductService {
       params = params.append('Category', productParams.Category);
     }
 
-    return this.http.get<Product[]>(this.serviceBaseUrl + 'ProductDashboard/GetProducts', { headers: httpOptions.headers, observe: 'response', params })
+    return this.http.get<Product[]>(this.serviceBaseUrl + 'ProductDashboard/GetProducts', {observe: 'response', params })
       .pipe(
         map(response => {
           paginatedResult.result = response.body;
@@ -47,6 +42,20 @@ export  class ProductService {
           return paginatedResult;
         })
       )
+  }
+
+  getProduct(procuctId) {
+
+    return this.http.get<Product>(this.serviceBaseUrl + 'ProductDashboard/GetProducts/' + procuctId, { observe: 'response' })
+      .pipe(
+        map(response => {
+          if (response.status==200) {
+            return response.body["entity"];
+
+          } else {
+            this.toastrService.error(response["returnMessage"]);
+          }
+    }));
   }
 
 }

@@ -19,6 +19,7 @@ namespace ShoppingOnline.Domain.Services.Implementation
     {
         #region Property Declaration
         private readonly ShoppingOnlineDBContext _dbContext;
+        private readonly IMapper _mapper;
         #endregion
 
         #region Repositories Property
@@ -28,12 +29,12 @@ namespace ShoppingOnline.Domain.Services.Implementation
             {
                 if (_productRepo == null)
                 {
-                    _productRepo = new ProductRepository(_dbContext);
+                    _productRepo = new ProductRepository(_dbContext,_mapper);
                 }
                 return _productRepo;
             }
         }
-        
+
         private IProductRepository _productRepo;
 
         public ICategoryRepository categoryRepo
@@ -42,7 +43,7 @@ namespace ShoppingOnline.Domain.Services.Implementation
             {
                 if (_categoryRepo == null)
                 {
-                    _categoryRepo = new CategoryRepository(_dbContext);
+                    _categoryRepo = new CategoryRepository(_dbContext,_mapper);
                 }
                 return _categoryRepo;
             }
@@ -52,9 +53,10 @@ namespace ShoppingOnline.Domain.Services.Implementation
         #endregion
 
         #region Constructor
-        public ProductDashboardService(ShoppingOnlineDBContext dbContext)
+        public ProductDashboardService(ShoppingOnlineDBContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
         }
         #endregion
 
@@ -66,16 +68,16 @@ namespace ShoppingOnline.Domain.Services.Implementation
 
             try
             {
-                IQueryable<ProductDTO> products = productRepo.GetAll().Select(p => new ProductDTO() { Id = p.Id,Name = p.Name,Description=p.Description,Price=p.Price, 
-                    CategoryId = p.ProductCategories.Where(pc=>pc.ProductId==p.Id).FirstOrDefault().CategoryId});
+                IQueryable<ProductDTO> productsDTO = productRepo.GetAllProductInfo();
+                //var productsDTO = _mapper.Map<IEnumerable<ProductDTO>>(products);
 
                 int categoryId = 0;
                 if (!string.IsNullOrEmpty(productParams.Category) && int.TryParse(productParams.Category, out categoryId))
                 {
-                    products = products.Where(p => p.CategoryId == categoryId);
+                    productsDTO = productsDTO.Where(p => p.CategoryId == categoryId);
                 }
-                
-                var pagedproducts = await PagedList<ProductDTO>.CreateAsync(products, productParams.PageNumber, productParams.PageSize);
+
+                var pagedproducts = PagedList<ProductDTO>.CreateAsync(productsDTO, productParams.PageNumber, productParams.PageSize);
 
                 returnResponse.Entity = pagedproducts;
                 returnResponse.ReturnStatus = true;
@@ -90,17 +92,14 @@ namespace ShoppingOnline.Domain.Services.Implementation
         }
 
 
-        /// <summary>
-        /// get all customers as lookup
-        /// </summary>
-        /// <returns>lookup collecion with text and value</returns>
         public ResponseModel<List<LookupDTO>> GetCategoryLookup()
         {
             ResponseModel<List<LookupDTO>> returnResponse = new ResponseModel<List<LookupDTO>>();
             try
             {
-                IQueryable<LookupDTO> categories = categoryRepo.GetAll().Select(c => new LookupDTO() { text = c.Name, value = c.Id.ToString() });
-                returnResponse.Entity = categories.ToList();
+                IQueryable<LookupDTO> categoriesDTO = categoryRepo.GetAllCategories();
+
+                returnResponse.Entity = categoriesDTO.ToList();
                 returnResponse.ReturnStatus = true;
             }
             catch (Exception ex)
@@ -110,6 +109,26 @@ namespace ShoppingOnline.Domain.Services.Implementation
             }
 
             return returnResponse;
+        }
+
+
+        public async Task<ResponseModel<ProductDTO>> GetProductDetails(int productId) {
+
+            ResponseModel<ProductDTO> returnResponse = new ResponseModel<ProductDTO>();
+            try
+            {
+                Task<ProductDTO> productDTO = productRepo.GetProductInfo(productId);
+
+                returnResponse.Entity = await productDTO;
+                returnResponse.ReturnStatus = true;
+                return returnResponse;
+            }
+            catch (Exception ex)
+            {
+                returnResponse.ReturnStatus = false;
+                returnResponse.ReturnMessage.Add(ex.Message);
+                return returnResponse;
+            }
         }
         #endregion
     }

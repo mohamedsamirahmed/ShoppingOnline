@@ -10,10 +10,10 @@
       
     </ul>
 
-    <div class="dropdown" *ngIf="accountService.currentUser$ | async" dropdown >
-      <a  class="dropdown-toggle text-light" dropdownToggle>Welcome user</a>
+    <div class="dropdown" *ngIf="accountService.currentUser$ | async as user" dropdown >
+      <a  class="dropdown-toggle text-light" dropdownToggle>Welcome {{user.userName}}</a>
       <div class="dropdown-menu mt-3" *dropdownMenu>
-        <a class="dropdown-item"> Manage Products</a>
+        <a class="dropdown-item" routerLink='/admin' *appHasRole='["Admin"]'> Admin Panel</a>
         <a class="dropdown-item" (click)="logout()">logout</a>
       </div>
     </div>

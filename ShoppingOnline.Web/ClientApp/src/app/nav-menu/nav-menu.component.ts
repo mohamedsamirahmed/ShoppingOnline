@@ -1,7 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { ReplaySubject } from 'rxjs';
 import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { User } from '../../models/user';
 import { AccountService } from '../../Services/account-service';
 
@@ -14,7 +16,8 @@ export class NavMenuComponent implements OnInit {
 
   model: any = {}
   registerMode = false;
-  currentUser$: Observable<User>; 
+  currentUser$: Observable<User>;
+
 
   constructor(public accountService: AccountService,
     private router: Router,

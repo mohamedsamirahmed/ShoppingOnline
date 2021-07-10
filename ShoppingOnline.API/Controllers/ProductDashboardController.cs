@@ -27,9 +27,10 @@ namespace ShoppingOnline.API.Controllers
             _productDashboardService = productDashboardService;
         }
 
-        
+
+       // [Authorize(Policy = "PurchaseOrder")]
         [HttpGet("GetProducts")]
-        [AllowAnonymous]
+        
         public async Task<IActionResult> GetProducts([FromQuery] ProductParams productParams)
         {
             try
@@ -53,6 +54,7 @@ namespace ShoppingOnline.API.Controllers
         
         // GET api/<ProductDashboardController>/5
         [HttpGet("GetCategories")]
+        //[Authorize(Policy = "PurchaseOrder")]
         public IActionResult GetCategories()
         {
             try
@@ -69,22 +71,25 @@ namespace ShoppingOnline.API.Controllers
             }
         }
 
-        // POST api/<ProductDashboardController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
 
-        // PUT api/<ProductDashboardController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        // GET api/<ProductDashboardController>/5
+        [HttpGet("GetProducts/{id}")]
+        //[Authorize(Policy = "PurchaseOrder")]
+        public async Task<IActionResult> GetProducts(int id)
         {
-        }
+            try
+            {
+                var productResponse = await _productDashboardService.GetProductDetails(id);
 
-        // DELETE api/<ProductDashboardController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+                if (!productResponse.ReturnStatus)
+                    return BadRequest(productResponse);
+                return Ok(productResponse);
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Something wrong happened!. Please try again later.");
+            }
         }
     }
 }

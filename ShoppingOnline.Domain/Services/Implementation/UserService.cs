@@ -1,4 +1,7 @@
-﻿using ShoppingOnline.Common.Models;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using ShoppingOnline.Common.Models;
 using ShoppingOnline.Data;
 using ShoppingOnline.Domain.Model;
 using ShoppingOnline.Domain.Repositories;
@@ -17,6 +20,9 @@ namespace ShoppingOnline.Domain.Services.Implementation
     {
         #region Property Declaration
         private readonly ShoppingOnlineDBContext _dbContext;
+        private readonly UserManager<Model.User> _userManager;
+        private readonly SignInManager<Model.User> _signInManager;
+        private readonly IMapper _mapper;
         #endregion
 
         #region Repositories Property
@@ -37,48 +43,62 @@ namespace ShoppingOnline.Domain.Services.Implementation
         #endregion
 
         #region Constructor
-        public UserService(ShoppingOnlineDBContext dbContext)
+        public UserService(UserManager<Model.User> userManager,
+            SignInManager<User> signInManager,IMapper mapper)
         {
-            _dbContext = dbContext;
+            //_dbContext = dbContext;
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _mapper = mapper;
         }
         #endregion
 
 
         #region public Operations
-        public ResponseModel<RegisterDTO> RegisterUser(string userName, string password)
+        public async Task<ResponseModel<User>> RegisterUser(RegisterDTO registerDto)
         {
-            ResponseModel<RegisterDTO> returnResponse = new ResponseModel<RegisterDTO>();
-
+            ResponseModel<User> returnResponse = new ResponseModel<User>();
             try
             {
-                var selectedUser = UserExists(userName);
+                var selectedUser = await UserExists(registerDto.userName);
 
                 if (selectedUser==null)
                 {
-                    using var hmac = new HMACSHA512();
-                    var user = new User
-                    {
-                        Name = userName.ToLower(),
-                        PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password)),
-                        PasswordSalt = hmac.Key
-                    };
+                    var userFromRegisterDTO = _mapper.Map<Model.User>(registerDto);
 
-                    userRepo.Add(user);
-                    userRepo.SaveChanges();
+                    //using var hmac = new HMACSHA512();
+                    //var user = new User
+                    //{
+                    //    Name = userName.ToLower(),
+                    //    //PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password)),
+                    //    //PasswordSalt = hmac.Key
+                    //};
+                    userFromRegisterDTO.UserName = registerDto.userName.ToLower();
+                    var userDTO = _mapper.Map<User>(userFromRegisterDTO);
 
-                    var _user = new RegisterDTO() { userName = user.Name };
-                    returnResponse.Entity = _user;
+                    //userRepo.Add(user);
+                    //userRepo.SaveChanges();
+
+                    var userResult= await _userManager.CreateAsync(userFromRegisterDTO, registerDto.Password);
+
+                    if (!userResult.Succeeded)
+                        returnResponse.Entity = null;
+                    
+                   var roleResult= await _userManager.AddToRoleAsync(selectedUser, "Member");
+                    if (!userResult.Succeeded)
+                        returnResponse.Entity = null;
+
+
+                    returnResponse.Entity = userDTO;
                     returnResponse.ReturnStatus = true;
                 }
                 else
                 {
-                    var _user = new RegisterDTO() { userName = userName };
-                    returnResponse.Entity = _user;
+                    returnResponse.Entity = null;
                     returnResponse.ReturnStatus = false;
                     returnResponse.ReturnMessage.Add("User Exists!");
                 }
                 return returnResponse;
-
             }
             catch (Exception ex)
             {
@@ -88,12 +108,13 @@ namespace ShoppingOnline.Domain.Services.Implementation
             }
         }
 
-        private User UserExists(string userName)
+        private async Task<Model.User> UserExists(string userName)
         {
             try
             {
-                User selectedUser = userRepo.GetAll().FirstOrDefault(u => u.Name == userName.ToLower());
-              
+                Model.User selectedUser = await _userManager.Users.SingleOrDefaultAsync(u => u.UserName == userName.ToLower());
+                //User selectedUser = userRepo.GetAll().FirstOrDefault(u => u.UserName == userName.ToLower());
+               
                 return selectedUser;
             }
             catch (Exception)
@@ -102,13 +123,12 @@ namespace ShoppingOnline.Domain.Services.Implementation
             }
         }
 
-        public ResponseModel<LoginDto> LoginUser(string userName, string password)
+        public async Task<ResponseModel<User>> LoginUser(LoginDto loginDto)
         {
-            ResponseModel<LoginDto> returnResponse = new ResponseModel<LoginDto>();
-
+            ResponseModel<User> returnResponse = new ResponseModel<User>();
             try
             {
-                User requiredUser = UserExists(userName);
+                Model.User requiredUser = await UserExists(loginDto.userName);
                 
                 if (requiredUser==null)
                 {
@@ -118,21 +138,30 @@ namespace ShoppingOnline.Domain.Services.Implementation
                     return returnResponse;
                 }
 
-                using var hmac = new HMACSHA512(requiredUser.PasswordSalt);
-                var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+                //using var hmac = new HMACSHA512(requiredUser.PasswordSalt);
+                //var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
 
-                for (int i = 0; i < computedHash.Length; i++)
+                //for (int i = 0; i < computedHash.Length; i++)
+                //{
+                //    if (computedHash[i] != requiredUser.PasswordHash[i])
+                //    {
+                //        returnResponse.Entity = null;
+                //        returnResponse.ReturnStatus = false;
+                //        returnResponse.ReturnMessage.Add("Un Authorized User!");
+                //        return returnResponse;
+                //    }
+                //}
+                var result = await _signInManager.CheckPasswordSignInAsync(requiredUser, loginDto.Password, false);
+                if (!result.Succeeded)
                 {
-                    if (computedHash[i] != requiredUser.PasswordHash[i])
-                    {
-                        returnResponse.Entity = null;
-                        returnResponse.ReturnStatus = false;
-                        returnResponse.ReturnMessage.Add("Un Authorized User!");
-                        return returnResponse;
-                    }
+                    returnResponse.ReturnMessage.Add("UnAuthorized");
+                    returnResponse.ReturnStatus = false;
                 }
+
                 
-                returnResponse.Entity = new LoginDto() { userName= requiredUser.Name};
+
+                //var userDto= _mapper.Map<User>(requiredUser);
+                returnResponse.Entity = requiredUser;
                 returnResponse.ReturnStatus = true;
 
                 return returnResponse;
@@ -146,5 +175,5 @@ namespace ShoppingOnline.Domain.Services.Implementation
             }
         }
         #endregion
-    }
+    }   
 }

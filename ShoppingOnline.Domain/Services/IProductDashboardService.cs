@@ -8,9 +8,10 @@ using System.Threading.Tasks;
 
 namespace ShoppingOnline.Domain.Services
 {
-   public interface IProductDashboardService
+    public interface IProductDashboardService
     {
         Task<ResponseModel<PagedList<ProductDTO>>> GetAllProducts(ProductParams productParams);
         ResponseModel<List<LookupDTO>> GetCategoryLookup();
+        Task<ResponseModel<ProductDTO>> GetProductDetails(int productId);
     }
 }

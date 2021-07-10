@@ -20,10 +20,11 @@ export class AppComponent implements OnInit {
 
   setCurrentUser() {
     const user: User = JSON.parse(localStorage.getItem("user"));
-    this.accountServive.setCurrentUser(user);
+    if (user)
+      this.accountServive.setCurrentUser(user);
   }
 
-  
+
   cancelRegisterMode(event: boolean) {
     this.registerMode = event;
   }

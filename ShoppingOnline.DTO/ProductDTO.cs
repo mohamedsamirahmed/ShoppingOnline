@@ -18,5 +18,8 @@ namespace ShoppingOnline.DTO
         public List<ProductCategoryDTO> ProductCategories { get; set; }
 
         public ICollection<PhotoDTO> Photos { get; set; }
+
+
+        public string PhotoUrl { get; set; }
     }
 }

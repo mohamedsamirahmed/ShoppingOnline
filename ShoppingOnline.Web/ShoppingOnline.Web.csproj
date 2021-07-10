@@ -54,6 +54,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="ClientApp\src\models\category - Copy - Copy %282%29.js">
+      <DependentUpon>category.js</DependentUpon>
+    </None>
+    <None Update="ClientApp\src\models\category - Copy - Copy %282%29.js.map">
+      <DependentUpon>category.js.map</DependentUpon>
+    </None>
+    <None Update="ClientApp\src\models\category - Copy - Copy - Copy.js">
+      <DependentUpon>category.js</DependentUpon>
+    </None>
+    <None Update="ClientApp\src\models\category - Copy - Copy - Copy.js.map">
+      <DependentUpon>category.js.map</DependentUpon>
+    </None>
     <None Update="ClientApp\src\models\category - Copy - Copy.js">
       <DependentUpon>category.js</DependentUpon>
     </None>
@@ -80,6 +92,8 @@
   <ItemGroup>
     <Folder Include="ClientApp\src\guards\" />
     <Folder Include="ClientApp\src\module\" />
+    <Folder Include="ClientApp\src\directives\" />
+    <Folder Include="ClientApp\src\modals\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

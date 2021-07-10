@@ -21,8 +21,4 @@
     <ProjectReference Include="..\ShoppingOnline.Domain\ShoppingOnline.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Data\Migrations\" />
-  </ItemGroup>
-
 </Project>
