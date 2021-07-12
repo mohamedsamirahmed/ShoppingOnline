@@ -7,20 +7,11 @@
           <strong>Name</strong>
           <p>{{product.name}}</p>
         </div>
-        <!--<div>
-          <strong>Description</strong>
-          <p>{{product.description}}</p>
-        </div>-->
         <div>
           <strong>Price</strong>
           <p>{{product.price}}</p>
         </div>
       </div>
-      <!--<div class="card-footer">
-        <div class="btn-group d-flex">
-          <button class="btn btn-primary">Add To Cart</button>
-        </div>
-      </div>-->
     </div>
   </div>
   <div class="col-8">
@@ -29,9 +20,8 @@
       <p>{{product.description}}</p>
     </div>
     <div class="btn-group d-flex">
-      <button class="btn btn-primary">Add To Cart</button>
+      <button class="btn btn-primary" (click)="AddToCart()">Add To Cart</button>
     </div>
   </div>
-
 </div>
 

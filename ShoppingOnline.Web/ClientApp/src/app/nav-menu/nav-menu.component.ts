@@ -38,8 +38,8 @@ export class NavMenuComponent implements OnInit {
       console.log(response);
       this.router.navigateByUrl('/products');
     }, error => {
-      console.log(error);
-      //this.toastrService.error(error.error);
+      //console.log(error);
+      this.toastrService.error(error.mesage);
     });
 
   }

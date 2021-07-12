@@ -1,0 +1,21 @@
+<p *ngIf="!_orders"><em>Loading...</em></p>
+<div class="text-center mt-5" *ngIf="_orders.length==0">
+  <h2>No Records Found</h2>
+</div>
+
+<div class="row mt-10" style="padding-top:100px;" *ngIf="_orders.length>0">
+  <div *ngFor="let order of _orders" class="col-2">
+    <app-order-details [order]="order"></app-order-details>
+  </div>
+  <div>
+    <div>
+      <strong>Shipment Address</strong>
+      <p>{{_orders[0].order.shipmentAddress}}</p>
+    </div>
+    <div>
+      <strong>Total Order</strong>
+      <p>{{_orders[0].order.totalPrice}}</p>
+    </div>
+  </div>
+</div>
+

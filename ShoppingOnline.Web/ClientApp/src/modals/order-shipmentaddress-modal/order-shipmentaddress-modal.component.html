@@ -1,0 +1,15 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">Order Delivery</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form #orderForm="ngForm" id="orderShipmentForm">
+    <input name="shipmentAddress" [(ngModel)]="model.shipmentaddress" class="form-control mr-sm-2" type="text" placeholder="shipmentAddress">
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-default" (click)="bsModalRef.hide()">{{closeBtnName}}</button>
+  <button type="button" class="btn btn-primary" (click)="updateOrderShipmentAddress()">Deliver Now</button>
+</div>

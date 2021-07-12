@@ -42,7 +42,7 @@ export class OrderManagementComponent implements OnInit {
       itemsPerPage = this.pagination.itemsPerPage;
     }
 
-    this.adminService.getOrders(pageNumber, itemsPerPage, this.orderParams).subscribe((response: any) => {
+    this.adminService.getOrders(pageNumber, itemsPerPage).subscribe((response: any) => {
       if (response.result.returnStatus) {
         this.orders = response.result.entity;
         this.pagination = response.pagination

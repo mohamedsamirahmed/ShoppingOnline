@@ -10,5 +10,6 @@ namespace ShoppingOnline.Domain.Services
     {
         Task<ResponseModel<User>> RegisterUser(RegisterDTO registerDto);
         Task<ResponseModel<User>> LoginUser(LoginDto loginDto);
+        Task<User> UserExists(string userName);
     }
 }

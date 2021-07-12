@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using ShoppingOnline.API.Services;
 using ShoppingOnline.Common.Models;
 using ShoppingOnline.Domain.Model;
@@ -8,15 +7,12 @@ using ShoppingOnline.DTO;
 using System;
 using System.Threading.Tasks;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace ShoppingOnline.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
     {
-
         private readonly IUserService _userService;
         private readonly ITokenService _tokenService;
 
@@ -49,11 +45,6 @@ namespace ShoppingOnline.API.Controllers
                     ReturnStatus = true
                 };
 
-                //ResponseModel<UserDTO> userResponse = new ResponseModel<UserDTO>();
-
-                //userResponse.Entity = new UserDTO { UserName = registerResponse.Entity.UserName, Token = _tokenService.CreateToken(registerResponse.Entity.UserName) };
-                //userResponse.ReturnStatus = true;
-
                 return Ok(registerResponseDto);
             }
             catch (Exception ex)
@@ -82,9 +73,6 @@ namespace ShoppingOnline.API.Controllers
                     },
                     ReturnStatus = true
                 };
-
-                //userResponse.Entity = new UserDTO { UserName = loginResponse.Entity.userName, Token = _tokenService.CreateToken(loginResponse.Entity.userName) };
-                //userResponse.ReturnStatus = true;
 
                 return Ok(userResponseDto);
             }

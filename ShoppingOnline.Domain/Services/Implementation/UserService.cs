@@ -20,8 +20,8 @@ namespace ShoppingOnline.Domain.Services.Implementation
     {
         #region Property Declaration
         private readonly ShoppingOnlineDBContext _dbContext;
-        private readonly UserManager<Model.User> _userManager;
-        private readonly SignInManager<Model.User> _signInManager;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
         private readonly IMapper _mapper;
         #endregion
 
@@ -43,10 +43,9 @@ namespace ShoppingOnline.Domain.Services.Implementation
         #endregion
 
         #region Constructor
-        public UserService(UserManager<Model.User> userManager,
+        public UserService(UserManager<User> userManager,
             SignInManager<User> signInManager,IMapper mapper)
         {
-            //_dbContext = dbContext;
             _userManager = userManager;
             _signInManager = signInManager;
             _mapper = mapper;
@@ -64,20 +63,10 @@ namespace ShoppingOnline.Domain.Services.Implementation
 
                 if (selectedUser==null)
                 {
-                    var userFromRegisterDTO = _mapper.Map<Model.User>(registerDto);
+                    var userFromRegisterDTO = _mapper.Map<User>(registerDto);
 
-                    //using var hmac = new HMACSHA512();
-                    //var user = new User
-                    //{
-                    //    Name = userName.ToLower(),
-                    //    //PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password)),
-                    //    //PasswordSalt = hmac.Key
-                    //};
                     userFromRegisterDTO.UserName = registerDto.userName.ToLower();
                     var userDTO = _mapper.Map<User>(userFromRegisterDTO);
-
-                    //userRepo.Add(user);
-                    //userRepo.SaveChanges();
 
                     var userResult= await _userManager.CreateAsync(userFromRegisterDTO, registerDto.Password);
 
@@ -108,12 +97,11 @@ namespace ShoppingOnline.Domain.Services.Implementation
             }
         }
 
-        private async Task<Model.User> UserExists(string userName)
+        public async Task<User> UserExists(string userName)
         {
             try
             {
-                Model.User selectedUser = await _userManager.Users.SingleOrDefaultAsync(u => u.UserName == userName.ToLower());
-                //User selectedUser = userRepo.GetAll().FirstOrDefault(u => u.UserName == userName.ToLower());
+               User selectedUser = await _userManager.Users.SingleOrDefaultAsync(u => u.UserName == userName.ToLower());
                
                 return selectedUser;
             }
@@ -128,7 +116,7 @@ namespace ShoppingOnline.Domain.Services.Implementation
             ResponseModel<User> returnResponse = new ResponseModel<User>();
             try
             {
-                Model.User requiredUser = await UserExists(loginDto.userName);
+                User requiredUser = await UserExists(loginDto.userName);
                 
                 if (requiredUser==null)
                 {
@@ -137,28 +125,13 @@ namespace ShoppingOnline.Domain.Services.Implementation
                     returnResponse.ReturnMessage.Add("Un Authorized User!");
                     return returnResponse;
                 }
-
-                //using var hmac = new HMACSHA512(requiredUser.PasswordSalt);
-                //var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
-
-                //for (int i = 0; i < computedHash.Length; i++)
-                //{
-                //    if (computedHash[i] != requiredUser.PasswordHash[i])
-                //    {
-                //        returnResponse.Entity = null;
-                //        returnResponse.ReturnStatus = false;
-                //        returnResponse.ReturnMessage.Add("Un Authorized User!");
-                //        return returnResponse;
-                //    }
-                //}
+                
                 var result = await _signInManager.CheckPasswordSignInAsync(requiredUser, loginDto.Password, false);
                 if (!result.Succeeded)
                 {
                     returnResponse.ReturnMessage.Add("UnAuthorized");
                     returnResponse.ReturnStatus = false;
                 }
-
-                
 
                 //var userDto= _mapper.Map<User>(requiredUser);
                 returnResponse.Entity = requiredUser;

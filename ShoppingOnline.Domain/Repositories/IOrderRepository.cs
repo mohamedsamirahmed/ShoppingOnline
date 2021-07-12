@@ -14,5 +14,7 @@ namespace ShoppingOnline.Domain.Repositories
     {
         IQueryable<OrderDTO> GetAllOrders();
         Task<OrderDTO> GetAllOrders(int orderId);
+        Task<Order> ActiveOrderExist(int userId);
+        Task<int> AddOrder(int orderStatusId, int userId);
     }
 }

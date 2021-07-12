@@ -48,6 +48,7 @@ namespace ShoppingOnline.Common.Repository
             return null;
         }
 
+
         public TEntity Update(TEntity Entity)
         {
             if (Entity == null) throw new ArgumentNullException("Entity is null");

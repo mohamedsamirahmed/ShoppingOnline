@@ -31,8 +31,11 @@ namespace ShoppingOnline.API
             services.AddCors();
             services.AddDbContext<ShoppingOnlineDBContext>(db => db.UseSqlite(_configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("ShoppingOnline.API")));
             services.AddScoped<ITokenService, TokenService>();
+            services.AddTransient<ICartService, CartService>();
             services.AddTransient<IProductDashboardService, ProductDashboardService>();
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IOrderStatusService, OrderStatusService>();
+            
             services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
             services.AddControllers();
             services.AddIdentityServices(_configuration);

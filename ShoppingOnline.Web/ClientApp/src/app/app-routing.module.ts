@@ -7,6 +7,7 @@ import { HomeComponent } from "./home/home.component";
 import { ProductDetailsComponent } from "./product-details/product-details.component";
 import { ProductsComponent } from "./products/products.component";
 import { AdminPanelComponent } from "./admin/admin-panel/admin-panel.component";
+import { OrderComponent } from "./order/order.component";
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -18,7 +19,8 @@ const routes: Routes = [
       { path: 'cart', component: CartComponent },
       { path: 'products', component: ProductsComponent},
       { path: 'products/:id', component: ProductDetailsComponent },
-      { path: 'admin', component: AdminPanelComponent, canActivate:[AdminGuard] }
+      { path: 'myorders', component: OrderComponent },
+      { path: 'admin', component: AdminPanelComponent, canActivate: [AdminGuard] }
     ]
   },
   { path: '**', component: HomeComponent, pathMatch: "full" }];

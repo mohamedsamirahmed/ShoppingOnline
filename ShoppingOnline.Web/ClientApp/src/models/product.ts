@@ -8,6 +8,6 @@ export interface Product {
   price: number;
   qunatity: number;
   category: Category;
-  products: Photo[];
+  photos: Photo[];
 }
 

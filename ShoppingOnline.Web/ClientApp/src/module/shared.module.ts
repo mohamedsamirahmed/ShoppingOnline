@@ -8,9 +8,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
   imports: [
     CommonModule,
     BsDropdownModule.forRoot(),
-    ToastrModule.forRoot({
-      positionClass: 'toastr-bottom-right'
-    }),
+    ToastrModule.forRoot(),
     ModalModule.forRoot()
   ],
   exports: [

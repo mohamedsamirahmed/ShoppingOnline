@@ -30,7 +30,9 @@ namespace ShoppingOnline.Domain.Repositories
         {
             return await  this.GetAll().Include(p=>p.Photos)
                 .ProjectTo<ProductDTO>(_mapper.ConfigurationProvider)
-                .SingleOrDefaultAsync(x=>x.Id==productId);
+                .SingleOrDefaultAsync(x=>x.id==productId);
         }
+
+        
     }
 }

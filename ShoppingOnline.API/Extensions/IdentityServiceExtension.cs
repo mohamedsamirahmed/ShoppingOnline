@@ -41,10 +41,7 @@ namespace ShoppingOnline.API.Extensions
                 opt.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
                 opt.AddPolicy("PurchaseOrder", policy => policy.RequireRole("Admin","Member"));
                 });
-
-
             return services;
-
         }
     }
 }

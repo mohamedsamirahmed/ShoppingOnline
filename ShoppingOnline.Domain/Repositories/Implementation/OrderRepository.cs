@@ -37,5 +37,25 @@ namespace ShoppingOnline.Domain.Repositories.Implementation
         {
             return this.GetAll().ProjectTo<OrderDTO>(_mapper.ConfigurationProvider);
         }
+
+        public async Task<Order> ActiveOrderExist(int userId)
+        {
+            var cartStatusRecord = await this.GetAll().Include(cs => cs.OrderStatus)
+               .SingleOrDefaultAsync(x => x.UserId == userId && x.OrderStatus.Name == "New");
+
+            return cartStatusRecord;
+        }
+
+        public async Task<int> AddOrder(int orderStatusId, int userId)
+        {
+            var order = new Order()
+            {
+                UserId = userId,
+                OrderStatusId = orderStatusId
+            };
+            _dbContext.Orders.Add(order);
+
+            return await _dbContext.SaveChangesAsync();
+        }
     }
 }

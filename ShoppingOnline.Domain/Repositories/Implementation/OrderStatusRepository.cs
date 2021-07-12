@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Microsoft.EntityFrameworkCore;
 using ShoppingOnline.Common.Repository;
 using ShoppingOnline.Data;
 using ShoppingOnline.Domain.Model;
@@ -8,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace ShoppingOnline.Domain.Repositories.Implementation
 {
@@ -25,6 +27,11 @@ namespace ShoppingOnline.Domain.Repositories.Implementation
         public IQueryable<LookupDTO> GetAllOrderStatus()
         {
             return this.GetAll().ProjectTo<LookupDTO>(_mapper.ConfigurationProvider);
+        }
+
+        public async Task<OrderStatus> GetOrderStatusByName(string key)
+        {
+            return await this.GetAll().SingleOrDefaultAsync(x => x.Name == key);
         }
     }
 }

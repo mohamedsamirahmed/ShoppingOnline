@@ -12,7 +12,7 @@ using System.Text;
 namespace ShoppingOnline.Domain.Services.Implementation
 {
   
-    class OrderStatusService : IOrderStatusService
+   public class OrderStatusService : IOrderStatusService
     {
         #region Property Declaration
         private readonly ShoppingOnlineDBContext _dbContext;

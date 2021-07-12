@@ -21,6 +21,20 @@ namespace ShoppingOnline.Domain.MapperConfiguration
             CreateMap<OrderStatus, LookupDTO>();
             CreateMap<User, RegisterDTO>();
             CreateMap<User, LoginDto>();
+            CreateMap<CartItem, CartItemDTO>();
+            CreateMap<CartItemDTO, CartItem>().ForMember("Product",opt=>opt.Ignore())
+                .ForMember("Cart",opt=>opt.Ignore());
+            CreateMap<ProductDTO, CartItem>().ForMember(dest=>dest.ProductId,
+                opt=>opt.MapFrom(src=>src.id)).ForMember("Id",opt=>opt.Ignore());
+            CreateMap<Cart, CartDTO>();
+            CreateMap<User, UserDTO>();
+            CreateMap<ProductDTO, Product>();
+            CreateMap<CartDTO, Cart>();
+            CreateMap<CartItem, OrderItems>()
+                .ForMember("Id", opt => opt.Ignore());
+            CreateMap<OrderItems, OrderItemDTO>();
+                
+
         }
         
     }

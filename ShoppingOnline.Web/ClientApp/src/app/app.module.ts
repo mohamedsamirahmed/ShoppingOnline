@@ -22,6 +22,9 @@ import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
 import { HasRoleDirective } from '../directives/has-role.directive';
 import { OrderDeliveryModalsComponent } from '../modals/order-delivery-modals/order-delivery-modals.component';
 import { OrderManagementComponent } from './admin/order-management/order-management.component';
+import { OrderShipmentaddressModalComponent } from '../modals/order-shipmentaddress-modal/order-shipmentaddress-modal.component';
+import { OrderComponent } from './order/order.component';
+import { OrderDetailsComponent } from './order-details/order-details.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +39,10 @@ import { OrderManagementComponent } from './admin/order-management/order-managem
     AdminPanelComponent,
     HasRoleDirective,
     OrderDeliveryModalsComponent,
-    OrderManagementComponent
+    OrderManagementComponent,
+    OrderShipmentaddressModalComponent,
+    OrderComponent,
+    OrderDetailsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -47,6 +53,9 @@ import { OrderManagementComponent } from './admin/order-management/order-managem
     BrowserAnimationsModule,
     SharedModule
    
+  ],
+  entryComponents: [
+    OrderShipmentaddressModalComponent
   ],
   providers: [ProductService, LookupService, AccountService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor , multi:true }

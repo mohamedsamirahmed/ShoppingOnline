@@ -67,9 +67,9 @@ namespace ShoppingOnline.API.Data
             var productData = await System.IO.File.ReadAllTextAsync("Data/ProductSeedData.json");
             var products = JsonSerializer.Deserialize<List<Product>>(productData);
             if (products == null) return;
-            foreach (var peoduct in products)
+            foreach (var product in products)
             {
-                context.Products.Add(peoduct);
+                context.Products.Add(product);
             }
             await context.SaveChangesAsync();
         }
