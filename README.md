@@ -22,16 +22,27 @@ This module based on .Netcore , ef5 , Angular 8
 ## Database Structure
 
 | Table  | Description |
+
 | ASPNetUsers | all users login system |
+
 | ASPNetRoles | all permission roles |
+
 | ASPNetUserRoles | role assigned for each user |
+
 | Products | All products information |
+
 | Categories | show product category |
+
 | Cart | show carts assigned for each user |
+
 | CartItems | products inside carts |
+
 | CartStatus | status for cart ex:New,Checkedout,cancelled |
+
 | Orders | order information for each user |
+
 | OrderItems | product inside each order |
+
 | OrdersStatus | status for orders ex:New,Checkedout,cancelled |
 
 ## Database Structure
