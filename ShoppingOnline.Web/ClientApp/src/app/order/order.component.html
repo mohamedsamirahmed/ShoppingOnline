@@ -1,9 +1,10 @@
 <p *ngIf="!_orders"><em>Loading...</em></p>
-<div class="text-center mt-5" *ngIf="_orders.length==0">
+
+<div class="text-center mt-5" *ngIf="!_orders">
   <h2>No Records Found</h2>
 </div>
 
-<div class="row mt-10" style="padding-top:100px;" *ngIf="_orders.length>0">
+<div class="row mt-10" style="padding-top:100px;" *ngIf="_orders">
   <div *ngFor="let order of _orders" class="col-2">
     <app-order-details [order]="order"></app-order-details>
   </div>

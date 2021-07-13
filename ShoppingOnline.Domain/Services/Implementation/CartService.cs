@@ -259,7 +259,8 @@ namespace ShoppingOnline.Domain.Services.Implementation
                     {
                         OrderStatusId = CheckedoutOrderStatus.Id,
                         ShipmentAddress = shipmentAddress,
-                        TotalPrice = CalculateOrderPrice(cartItems)
+                        TotalPrice = CalculateOrderPrice(cartItems),
+                        UserId=currentUser.Id
                     };
 
                     //create new order
@@ -267,7 +268,7 @@ namespace ShoppingOnline.Domain.Services.Implementation
                     orderId = await orderRepo.SaveChangesAsync();
 
                     //Add Orders to Order Items
-                    await AddOrderItems(cartItems, currentOrder.Id);
+                    await AddOrderItems(cartItems, orderId);
                     
                     //update cart status to checkedout
                     var cartId = await CheckoutCart(currentCart);

@@ -15,7 +15,8 @@ export class OrderDeliveryModalsComponent implements OnInit {
 
   @Input() updateSelectedOrder = new EventEmitter();
   order: Order;
-  orderstatus: any;
+  public selectedStatus: any;
+
   public _allOrderStatus: Lookup[];
   serviceBaseUrl = environment.apiEndpoint;
   orderStatusServiceEndpoint = this.serviceBaseUrl + 'admin/GetOrderStatus';
@@ -38,7 +39,7 @@ export class OrderDeliveryModalsComponent implements OnInit {
   }
 
   updateOrderStatus() {
-    this.updateSelectedOrder.emit(this.orderstatus)
+    this.updateSelectedOrder.emit(this.selectedStatus)
     this.bsModalRef.hide();
   }
 

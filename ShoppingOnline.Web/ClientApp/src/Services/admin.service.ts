@@ -29,7 +29,7 @@ export class AdminService {
       params = params.append('pageSize', itemsPerPage);
     }
 
-    return this.http.get<Order[]>(this.serviceBaseUrl + 'admin/review-orders', { observe: 'response', params })
+    return this.http.get<Order[]>(this.serviceBaseUrl + 'admin/ReviewOrders/', { observe: 'response', params })
       .pipe(
         map(response => {
           paginatedResult.result = response.body;
@@ -55,17 +55,12 @@ export class AdminService {
         }));
   }
 
-  updateOrder(orderId:number,roleId:number) {
+  updateOrder(orderId:number,statusId:number) {
 
-    return this.http.get<Order>(this.serviceBaseUrl + 'admin/edit-orders/' + orderId+"?roleid="+roleId, { observe: 'response' })
+    return this.http.post(this.serviceBaseUrl + 'admin/EditOrders/' + orderId + "/" + statusId, { observe: 'response' })
       .pipe(
         map(response => {
-          if (response.status == 200) {
-            return response.body["entity"];
-
-          } else {
-            this.toastrService.error(response["returnMessage"]);
-          }
+          return response;
         }));
   }
 }

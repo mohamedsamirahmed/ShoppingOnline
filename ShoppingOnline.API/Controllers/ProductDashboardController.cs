@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ShoppingOnline.API.Services;
 using ShoppingOnline.Common.Helper;
@@ -15,6 +16,7 @@ using System.Threading.Tasks;
 
 namespace ShoppingOnline.API.Controllers
 {
+    [Authorize(Policy = "PurchaseOrder")]
     [Route("api/[controller]")]
     [ApiController]
     public class ProductDashboardController : ControllerBase
@@ -35,7 +37,6 @@ namespace ShoppingOnline.API.Controllers
 
         // [Authorize(Policy = "PurchaseOrder")]
         [HttpGet("GetProducts")]
-
         public async Task<IActionResult> GetProducts([FromQuery] ProductParams productParams)
         {
             try
@@ -98,13 +99,14 @@ namespace ShoppingOnline.API.Controllers
         }
 
 
-        [HttpPost("AddToCart/{username}")]
-        public async Task<IActionResult> AddToCart(ProductDTO productDto, string userName)
+        //[Authorize(Policy = "PurchaseOrder")]
+        [HttpPost("AddToCart/")]
+        public async Task<IActionResult> AddToCart(ProductDTO productDto)
         {
             try
             {
-
-                var productDtoResponse = await _cartService.AddCartItem(productDto, userName);
+                var username = User.FindFirst(ClaimTypes.Name)?.Value;
+                var productDtoResponse = await _cartService.AddCartItem(productDto, username);
 
                 if (!productDtoResponse.ReturnStatus)
                     return BadRequest(productDtoResponse);
@@ -116,11 +118,15 @@ namespace ShoppingOnline.API.Controllers
             }
         }
 
-        [HttpGet("GetCartItems/{username}")]
-        public async Task<IActionResult> GetCartItems(string username)
+        //[Authorize(Policy = "PurchaseOrder")]
+        [HttpGet("GetCartItems")]
+        public async Task<IActionResult> GetCartItems()
         {
             try
             {
+                var username = User.FindFirst(ClaimTypes.Name)?.Value;
+                if (username == null) return BadRequest("you Should login first!");
+
                 var cartItems = await _cartService.GetAllCartItems(username);
                 return Ok(cartItems);
             }
@@ -130,6 +136,7 @@ namespace ShoppingOnline.API.Controllers
             }
         }
 
+        //[Authorize(Policy = "PurchaseOrder")]
         [HttpPut("RemoveCartItem/")]
         public async Task<IActionResult> RemoveCartItem(CartItemDTO cartItemDto)
         {
@@ -147,13 +154,16 @@ namespace ShoppingOnline.API.Controllers
             }
         }
 
-
-        [HttpPost("CartCheckout/{username}/{shipmentAddress}")]
-        public async Task<IActionResult> CartCheckout(string userName, string shipmentAddress)
+        //[Authorize(Policy = "PurchaseOrder")]
+        [HttpPost("CartCheckout/{shipmentAddress}")]
+        public async Task<IActionResult> CartCheckout(string shipmentAddress)
         {
             try
             {
-                var ordertResponse = await _cartService.CheckoutCartProcess(userName, shipmentAddress);
+                var username = User.FindFirst(ClaimTypes.Name)?.Value;
+                if (username == null) return BadRequest("you Should login first!");
+
+                var ordertResponse = await _cartService.CheckoutCartProcess(username, shipmentAddress);
 
                 if (!ordertResponse.ReturnStatus)
                     return BadRequest(ordertResponse);
@@ -166,12 +176,15 @@ namespace ShoppingOnline.API.Controllers
         }
 
 
-
-        [HttpGet("GetOrderItems/{username}")]
-        public async Task<IActionResult> GetOrderItems(string username)
+        //[Authorize(Policy = "RequireAdminRole")]
+        [HttpGet("GetOrderItems")]
+        public async Task<IActionResult> GetOrderItems()
         {
             try
             {
+                var username = User.FindFirst(ClaimTypes.Name)?.Value;
+                if (username == null) return BadRequest("you Should login first!");
+
                 var orderItems = await _cartService.GetAllOrderItems(username);
                 return Ok(orderItems);
             }

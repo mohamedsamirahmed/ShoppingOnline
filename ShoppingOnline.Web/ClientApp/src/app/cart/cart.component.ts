@@ -94,7 +94,7 @@ export class CartComponent implements OnInit {
     this.bsModalRef.content.updateSelectedOrder.subscribe(values => {
       const shipmentAddress = values;
       this.productService.deliverOrder(this.username, shipmentAddress).subscribe(response => {
-        this.router.navigateByUrl('/myorder');
+        this.router.navigateByUrl('/myorders');
         console.log(response);
       })
     })

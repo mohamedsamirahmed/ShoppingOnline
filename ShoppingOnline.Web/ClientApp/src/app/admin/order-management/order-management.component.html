@@ -1,5 +1,5 @@
 <p>Order Management</p>
-<div class="row">
+<div class="row mt-5">
   <table class="table">
     <tr>
       <td style="width:30%">Order # </td>
@@ -9,7 +9,7 @@
     </tr>
     <tr *ngFor="let order of orders">
       <td>{{order.id}}</td>
-      <td>{{order.status}}</td>
+      <td>{{order.orderStatus.text}}</td>
       <td>{{order.totalPrice}}</td>
       <td><button class="btn btn-info" (click)="OpenOrderModal(order)">Update Order Status</button></td>
     </tr>

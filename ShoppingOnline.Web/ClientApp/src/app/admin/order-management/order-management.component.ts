@@ -25,6 +25,7 @@ export class OrderManagementComponent implements OnInit {
   private toastrService: ToastrService) { }
 
   ngOnInit() {
+    this.getOrders();
   }
 
   //on change pagining
@@ -69,12 +70,12 @@ export class OrderManagementComponent implements OnInit {
 
     this.bsModalRef = this.modalService.show(OrderDeliveryModalsComponent, config);
     this.bsModalRef.content.updateSelectedOrder.subscribe(values => {
-      const statusToUpdate = {
-        orderStatus: [...values.filter(el => el.selected === true).map(el => el.text)]
-      };
-      if (statusToUpdate) {
-        this.adminService.updateOrder(order.id, statusToUpdate.orderStatus[0]).subscribe(() => {
-          order.status = [...statusToUpdate.orderStatus][0];
+      if (values) {
+        this.adminService.updateOrder(order.id, values).subscribe(response => {
+          if (response.status == 200)
+            this.toastrService.success("order status updated");
+          else
+            this.toastrService.error("something went wrong");
         })
       }
     })

@@ -35,7 +35,10 @@ namespace ShoppingOnline.Domain.Repositories.Implementation
 
         public IQueryable<OrderDTO> GetAllOrders()
         {
-            return this.GetAll().ProjectTo<OrderDTO>(_mapper.ConfigurationProvider);
+            return this.GetAll().Include(o => o.OrderStatus)
+                .Include(u => u.User)
+                .Where(o => o.OrderStatus.Name != "New")
+                .ProjectTo<OrderDTO>(_mapper.ConfigurationProvider);
         }
 
         public async Task<Order> ActiveOrderExist(int userId)

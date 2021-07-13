@@ -11,8 +11,10 @@ namespace ShoppingOnline.DTO
         public int UserId { get; set; }
 
         public int OrderStatusId { get; set; }
+        public LookupDTO OrderStatus { get; set; }
 
         public double TotalPrice { get; set; }
+        public UserDTO User { get; set; }
 
         public string ShipmentAddress { get; set; }
         public DateTime OrderDate { get; set; }

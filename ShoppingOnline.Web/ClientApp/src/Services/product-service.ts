@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
@@ -10,7 +10,15 @@ import { OrderItem } from '../models/order-item';
 import { PaginatedResult } from '../models/Pagination';
 import { Product } from '../models/product';
 
-@Injectable()
+//const httpOptions = {
+//  headers: new HttpHeaders({ 
+//    Authorization: 'Bearer ' + (localStorage.getItem('user')? JSON.parse(localStorage.getItem('user')).token:"")
+//  })
+//}
+
+@Injectable({
+  providedIn: 'root'
+})
 
 export class ProductService {
 
@@ -59,12 +67,12 @@ export class ProductService {
   }
 
   AddProductToCart(product:any,username:string) {
-    return this.http.post(this.serviceBaseUrl + "ProductDashboard/AddToCart/"+username, product);
+    return this.http.post(this.serviceBaseUrl + "ProductDashboard/AddToCart", product);
   }
 
   getCartItemList(username: string): Observable<CartItem[]> {
 
-    return this.http.get<CartItem[]>(this.serviceBaseUrl + 'ProductDashboard/GetCartItems/'+username, { observe: 'response'})
+    return this.http.get<CartItem[]>(this.serviceBaseUrl + 'ProductDashboard/GetCartItems', { observe: 'response'})
       .pipe(
         map(response => {
            return response["body"];
@@ -83,19 +91,19 @@ export class ProductService {
 
 
   OrderItems(username: string) {
-    return this.http.post(this.serviceBaseUrl + "ProductDashboard/CartCheckout/" + username, { observe: 'response' });
+    return this.http.post(this.serviceBaseUrl + "ProductDashboard/CartCheckout/", { observe: 'response' });
   }
 
   deliverOrder(username: string, shipmentAddress: string) {
-    return this.http.post(this.serviceBaseUrl + "ProductDashboard/CartCheckout/" + username + "/" + shipmentAddress ,{ observe: 'response' });
+    return this.http.post(this.serviceBaseUrl + "ProductDashboard/CartCheckout/" + shipmentAddress ,{ observe: 'response' });
   }
 
   getOrderList(username: string) {
 
-    return this.http.get<OrderItem[]>(this.serviceBaseUrl + 'ProductDashboard/GetOrderItems/' + username, { observe: 'response' })
+    return this.http.get<OrderItem[]>(this.serviceBaseUrl + 'ProductDashboard/GetOrderItems')
       .pipe(
         map(response => {
-          return response["body"];
+          return response;
         })
       )
   }

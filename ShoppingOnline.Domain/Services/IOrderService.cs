@@ -12,5 +12,6 @@ namespace ShoppingOnline.Domain.Services
    public interface IOrderService
     {
         Task<ResponseModel<PagedList<OrderDTO>>> GetAllOrders(OrderParams orderParams);
+        Task<int> UpdateOrderStatus(int orderId, int StatusId);
     }
 }

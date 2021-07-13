@@ -14,11 +14,15 @@ namespace ShoppingOnline.Domain.MapperConfiguration
         {
             CreateMap<Product, ProductDTO>().ForMember(dest=>dest.PhotoUrl,
                 opt=>opt.MapFrom(src=> src.Photos.FirstOrDefault(x=>x.IsMain).Url));
-            CreateMap<Order, OrderDTO>();
+            CreateMap<Order, OrderDTO>().ForPath(x => x.User.Token, x => x.Ignore());
             CreateMap<ProductCategory, ProductCategoryDTO>();
             CreateMap<Photos, PhotoDTO>();
             CreateMap<Category, LookupDTO>();
-            CreateMap<OrderStatus, LookupDTO>();
+            CreateMap<OrderStatus, LookupDTO>().ForMember(dest=>dest.text,
+                opt=>opt.MapFrom(src=>src.Name))
+                .ForMember(dest=>dest.value,
+                opt=>opt.MapFrom(src=>src.Id));
+
             CreateMap<User, RegisterDTO>();
             CreateMap<User, LoginDto>();
             CreateMap<CartItem, CartItemDTO>();

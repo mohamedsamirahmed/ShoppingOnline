@@ -1,9 +1,9 @@
 <p>My Carts</p>
-<div class="text-center mt-5" *ngIf="_cartItems.length==0">
+<div class="text-center mt-5" *ngIf="!_cartItems">
   <h2>No Records Found</h2>
 </div>
 
-<div class="row" *ngIf="_cartItems.length>0">
+<div class="row" *ngIf="_cartItems">
   <table class="table">
     <thead>
       <tr>

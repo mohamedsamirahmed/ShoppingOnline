@@ -6,9 +6,9 @@
 </div>
 <div class="modal-body">
   <form #orderForm="ngForm" id="orderStatusForm">
-    <select class="form-control ml-1" style="width: 130px" id="orderStatus" name="orderStatus">
+    <select class="form-control ml-1" style="width: 130px" id="orderStatus" name="orderStatus" [(ngModel)]="selectedStatus">
       <option value="" selected>Select Status</option>
-      <option *ngFor="let orderStatus of _allOrderStatus" [value]="orderStatus.value">{{orderStatus.text}}</option>
+      <option *ngFor="let orderStatus of _allOrderStatus"  [value]="orderStatus.value">{{orderStatus.text}}</option>
     </select>
   </form>
 </div>

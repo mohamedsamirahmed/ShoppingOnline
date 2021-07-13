@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace ShoppingOnline.API.Controllers
 {
+    [Authorize(Policy = "RequireAdminRole")]
     [Route("api/[controller]")]
     [ApiController]
     public class AdminController : ControllerBase
@@ -27,8 +28,8 @@ namespace ShoppingOnline.API.Controllers
             _orderService = orderService;
         }
 
-        [Authorize(Policy = "RequireAdminRole")]
-        [HttpGet("review-orders")]
+       
+        [HttpGet("ReviewOrders")]
         public async Task<IActionResult> ReviewOrders([FromQuery] OrderParams orderParams) {
             try
             {
@@ -47,24 +48,23 @@ namespace ShoppingOnline.API.Controllers
             }
         }
 
-        [Authorize(Policy = "RequireAdminRole")]
-        [HttpGet("review-orders/{id}")]
+        [HttpGet("ReviewOrders/{id}")]
         public IActionResult ReviewOrders(int id,[FromQuery] string orders)
         {
             
             return Ok(orders);
         }
 
-        [HttpPost("edit-orders/{id}")]
-        public IActionResult EditOrders(int id, [FromQuery] string orders) {
-            var selectedOrders = orders.Split(',').ToArray();
-            //find orders where selectedorder
-            return Ok("order object");
+        [HttpPost("EditOrders/{id}/{statusid}")]
+        public async  Task<IActionResult> EditOrders(int id, int statusid) {
+
+            var res= await _orderService.UpdateOrderStatus(id, statusid);
+            if (res == 0) return BadRequest("Something went wrong");
+            return Ok();
         }
 
         // GET api/<ProductDashboardController>/5
         [HttpGet("GetOrderStatus")]
-        //[Authorize(Policy = "PurchaseOrder")]
         public IActionResult GetOrderStatus()
         {
             try

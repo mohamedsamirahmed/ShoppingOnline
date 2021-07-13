@@ -28,6 +28,8 @@ namespace ShoppingOnline.API
         public void ConfigureServices(IServiceCollection services)
         {
             // Add service and create Policy with options
+
+
             services.AddCors();
             services.AddDbContext<ShoppingOnlineDBContext>(db => db.UseSqlite(_configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("ShoppingOnline.API")));
             services.AddScoped<ITokenService, TokenService>();
@@ -35,25 +37,25 @@ namespace ShoppingOnline.API
             services.AddTransient<IProductDashboardService, ProductDashboardService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IOrderStatusService, OrderStatusService>();
-            
+            services.AddTransient<IOrderService, OrderService>();
+
             services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
             services.AddControllers();
-            services.AddIdentityServices(_configuration);
-            services.AddControllersWithViews().AddNewtonsoftJson();
 
+            services.AddControllersWithViews().AddNewtonsoftJson();
 
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ShoppingOnline.API", Version = "v1" });
             });
+
+            services.AddIdentityServices(_configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
 
-            //allow cors origin
-            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             if (env.IsDevelopment())
             {
@@ -63,6 +65,9 @@ namespace ShoppingOnline.API
             }
 
             app.UseRouting();
+
+            //allow cors origin
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());//.WithOrigins("http://localhost:4200"));
 
             app.UseAuthentication();
             app.UseAuthorization();

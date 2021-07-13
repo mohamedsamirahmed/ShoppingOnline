@@ -65,5 +65,24 @@ namespace ShoppingOnline.Domain.Services.Implementation
                 return returnResponse;
             }
         }
+
+        public async Task<int> UpdateOrderStatus(int orderId, int StatusId)
+        {
+            try
+            {
+
+                var order = orderRepo.GetById(orderId); ;
+                if (order == null) return 0;
+
+                order.OrderStatusId = StatusId;
+                orderRepo.Update(order);
+                return await orderRepo.SaveChangesAsync();
+
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+        }
     }
 }

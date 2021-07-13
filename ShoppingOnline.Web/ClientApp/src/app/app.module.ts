@@ -55,7 +55,8 @@ import { OrderDetailsComponent } from './order-details/order-details.component';
    
   ],
   entryComponents: [
-    OrderShipmentaddressModalComponent
+    OrderShipmentaddressModalComponent,
+    OrderDeliveryModalsComponent
   ],
   providers: [ProductService, LookupService, AccountService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor , multi:true }
