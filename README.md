@@ -49,12 +49,19 @@ This module based on .Netcore , ef5 , Angular 8
 this table will show all projects descriptions with dependencies
 
 | Project  | dependency | Description
+
 | ShoppingOnline.Data |  | contains database context for shopping online system
+
 | ShoppingOnline.Domain.Model | | all models (tables) required to build DB.
+
 | ShoppingOnline.Domain |ShoppingOnline.Domain.Model ,  ShoppingOnline.Data  | perform all shopping online business implementation
+
 | ShoppingOnline.DTO |  | contains all data transfer object model to be passed to presentation layer (ShoppingOnline.Web)
+
 | ShoppingOnline.API | ShoppingOnline.Data,ShoppingOnline.Domain  | contains all API consumed by presentation layer.
+
 | ShoppingOnline.Web |  | presentation layer based on Angular8
+
 
 ## Presentation layer indeep
 UI presentation based on Angular 8 and structured as following 
