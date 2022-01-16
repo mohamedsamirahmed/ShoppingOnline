@@ -44,7 +44,7 @@ namespace ShoppingOnline.Domain.Services.Implementation
 
         #region Constructor
         public UserService(UserManager<User> userManager,
-            SignInManager<User> signInManager,IMapper mapper)
+            SignInManager<User> signInManager, IMapper mapper)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -61,19 +61,21 @@ namespace ShoppingOnline.Domain.Services.Implementation
             {
                 var selectedUser = await UserExists(registerDto.userName);
 
-                if (selectedUser==null)
+                if (selectedUser == null)
                 {
                     var userFromRegisterDTO = _mapper.Map<User>(registerDto);
 
                     userFromRegisterDTO.UserName = registerDto.userName.ToLower();
                     var userDTO = _mapper.Map<User>(userFromRegisterDTO);
 
-                    var userResult= await _userManager.CreateAsync(userFromRegisterDTO, registerDto.Password);
-
+                    var userResult = await _userManager.CreateAsync(userFromRegisterDTO, registerDto.Password);
+                    
                     if (!userResult.Succeeded)
                         returnResponse.Entity = null;
-                    
-                   var roleResult= await _userManager.AddToRoleAsync(selectedUser, "Member");
+                    selectedUser = await _userManager.FindByNameAsync(userFromRegisterDTO.UserName);
+
+                    var roleResult = await _userManager.AddToRoleAsync(selectedUser, "Member");
+
                     if (!userResult.Succeeded)
                         returnResponse.Entity = null;
 
@@ -101,8 +103,8 @@ namespace ShoppingOnline.Domain.Services.Implementation
         {
             try
             {
-               User selectedUser = await _userManager.Users.SingleOrDefaultAsync(u => u.UserName == userName.ToLower());
-               
+                User selectedUser = await _userManager.Users.SingleOrDefaultAsync(u => u.UserName == userName.ToLower());
+
                 return selectedUser;
             }
             catch (Exception)
@@ -117,15 +119,15 @@ namespace ShoppingOnline.Domain.Services.Implementation
             try
             {
                 User requiredUser = await UserExists(loginDto.userName);
-                
-                if (requiredUser==null)
+
+                if (requiredUser == null)
                 {
                     returnResponse.Entity = null;
                     returnResponse.ReturnStatus = true;
                     returnResponse.ReturnMessage.Add("Un Authorized User!");
                     return returnResponse;
                 }
-                
+
                 var result = await _signInManager.CheckPasswordSignInAsync(requiredUser, loginDto.Password, false);
                 if (!result.Succeeded)
                 {
@@ -148,5 +150,5 @@ namespace ShoppingOnline.Domain.Services.Implementation
             }
         }
         #endregion
-    }   
+    }
 }

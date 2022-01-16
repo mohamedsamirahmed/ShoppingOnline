@@ -37,6 +37,7 @@ namespace ShoppingOnline.Domain.MapperConfiguration
             CreateMap<CartItem, OrderItems>()
                 .ForMember("Id", opt => opt.Ignore());
             CreateMap<OrderItems, OrderItemDTO>();
+            CreateMap<RegisterDTO, User>();
                 
 
         }

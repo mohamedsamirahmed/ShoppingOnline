@@ -27,7 +27,7 @@ namespace ShoppingOnline.Domain.Repositories.Implementation
         {
             return this.GetAll().Include(o => o.Order)
                 .Include(p => p.Product)
-                .Where(o => o.Order.OrderStatus.Name == "Checkedout" && o.Order.UserId == userId)
+                .Where(o => o.Order.UserId == userId)
                 .ProjectTo<OrderItemDTO>(_mapper.ConfigurationProvider);
         }
 
